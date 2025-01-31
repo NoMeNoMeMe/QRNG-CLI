@@ -40,7 +40,7 @@ enum DataType {
 
 #[derive(Deserialize)]
 struct ApiResponse {
-    data: Vec<u16>,
+    data: Vec<u8>,
 }
 
 const API_URL: &str = "https://qrng.anu.edu.au/API/jsonI.php";
@@ -104,10 +104,10 @@ async fn fetch_lotto_numbers() -> Result<(), Box<dyn Error>> {
     match api_response {
         Ok(response) => {
             // Map numbers to the range of 1 to 45
-            let numbers: Vec<u16> = response.data.into_iter().map(|n| (n % 45) + 1).collect();
+            let numbers: Vec<u8> = response.data.into_iter().map(|n| (n % 49) + 1).collect();
 
             // Ensure uniqueness by taking the first 6 unique numbers
-            let unique_numbers: Vec<u16> = numbers
+            let unique_numbers: Vec<u8> = numbers
                 .into_iter()
                 .collect::<std::collections::HashSet<_>>()
                 .into_iter()
